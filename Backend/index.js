@@ -7,10 +7,13 @@ const app = express()
 
  dotenv.config()
 const PORT = process.env.PORT
+import morgan from 'morgan';
+
 
 // routes 
-import userRoutes from '../Backend/Routes/user.js'
-import morgan from 'morgan';
+import userRoutes from './Routes/user.js'
+import AdminRoute from './Routes/Admin.js'
+import TransactionAdmin from './Routes/Transaction.js'
 
 app.use(express.json())
 
@@ -21,13 +24,15 @@ if(process.env.NODE_ENV === 'development'){
 
 // user Routes 
 app.use('/auth', userRoutes)
+// Admin Route 
+
+// Transaction Route 
 
 
 
 
 // errors route 
 app.use(notFound)
-
 app.use(ErrorHandler)
 
 

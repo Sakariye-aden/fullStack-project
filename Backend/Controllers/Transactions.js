@@ -1,8 +1,6 @@
 import transaction from "../model/transaction.js";
 
 export const createTransaction = async (req, res, next) => {
-    
-    
 
     try {
         

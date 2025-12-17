@@ -3,7 +3,9 @@ import User from '../model/users.js'
 
 export const protect = async (req,res, next) => {
     
-    const Token = req.headers.authorization?.split(" ")[1];
+   try {
+
+       const Token = req.headers.authorization?.split(" ")[1];
 
     if(!Token){
         return res.status(400).json({
@@ -16,6 +18,10 @@ export const protect = async (req,res, next) => {
 
     const user = await User.findById(decode.id).select('-password')
 
-   req.user=user
-    next()
+      req.user=user
+
+   } catch (error) {
+      next(error)
+   }
+    
 }

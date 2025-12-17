@@ -1,5 +1,4 @@
-import User from '../model/users.js'
-import transaction from '../model/transaction.js'
+import transaction from '../model/Transaction.js'
 
 
 export const AdminInfo = async (req, res, next) => {

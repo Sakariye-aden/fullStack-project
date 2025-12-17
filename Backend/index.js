@@ -29,8 +29,6 @@ app.use('/Admin', AdminRoute)
 // Transaction Route 
 app.use('/transactions', TransactionRoute)
 
-
-
 // errors route 
 app.use(notFound)
 app.use(ErrorHandler)

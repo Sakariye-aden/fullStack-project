@@ -1,3 +1,4 @@
+import { Route, Router } from 'react-router'
 import './App.css'
 
 function App() {
@@ -5,7 +6,9 @@ function App() {
 
   return (
     <div>
-       Hello react 
+        <Router>
+           {/* <Route path='/login'element={}/> */}
+        </Router>
     </div>
   )
 }

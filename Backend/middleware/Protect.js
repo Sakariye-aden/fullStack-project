@@ -19,7 +19,7 @@ export const protect = async (req,res, next) => {
     const user = await User.findById(decode.id).select('-password')
 
       req.user=user
-
+      next()
    } catch (error) {
       next(error)
    }

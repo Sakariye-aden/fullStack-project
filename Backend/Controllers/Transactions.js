@@ -1,11 +1,11 @@
-import transaction from "../model/transaction.js";
+import transaction from "../model/Transaction.js";
 
 export const createTransaction = async (req, res, next) => {
 
     try {
         
      const newOne = await transaction.create({...req.body, createdBy:req.user._id})
-
+        console.log('trans:', newOne);
        res.status(201).json(newOne)
 
     } catch (error) {
@@ -18,7 +18,7 @@ export const getAlltrans = async (req,res, next) => {
      
     try {
         const Alltrans = await transaction.find({createdBy: req.user._id})
-
+        
         res.json(Alltrans)
     } catch (error) {
         next(error)

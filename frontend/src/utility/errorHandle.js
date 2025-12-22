@@ -11,9 +11,9 @@ export const errorhandle =(error)=>{
         return data.errors.map(err=> err.message).join(',')
        }
 
-     //    handle single error
+     //    handle single error in axios
       if(data.message){
-        return data.error
+        return data.message
       }
     }
 

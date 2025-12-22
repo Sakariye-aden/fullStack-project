@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button"
 import { useNavigate } from 'react-router'
 import { useMutation } from '@tanstack/react-query'
 import api from '../../lib/Api/ApiClient'
+import { errorhandle } from '../../utility/errorHandle';
 
 const RegisterForm = () => {
 
@@ -44,11 +45,11 @@ const RegisterForm = () => {
         navigate('/login')
       },
       onError:(error)=>{
-        console.log('error happened', error);
-        setError('error happaned')
+        setError(errorhandle(error))
       }
     })
 
+     
 
    const handleSubmit = (e)=>{
      e.preventDefault();

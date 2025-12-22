@@ -17,6 +17,7 @@ import { useMutation } from '@tanstack/react-query'
 import api from '../../lib/Api/ApiClient'
 import { Loader } from 'lucide-react'
 import useAuthstore from '../../lib/Store/AuthStore'
+import { errorhandle } from '../../utility/errorHandle'
 
 
 const LoginForm = () => {
@@ -41,7 +42,6 @@ const LoginForm = () => {
      const loginMutation = useMutation({
        mutationFn : async (credentials) => {
            const response = await api.post('/auth/login', credentials)
-           console.log('response :', response)
            return response.data
        },
        onSuccess:(data)=>{
@@ -49,14 +49,12 @@ const LoginForm = () => {
             const token = data.Token;
            if(data.Token){
              setAuth(user, token);
-
              navigate('/dashboard')
            }
           
        },
        onError:(error)=>{
-         console.log('error:',error);
-         setError('error happened')
+        setError(errorhandle(error))
        }
      })
    

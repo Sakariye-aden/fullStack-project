@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Card,
   CardContent,
@@ -16,7 +16,43 @@ import { useNavigate } from 'react-router'
 
 const RegisterForm = () => {
 
- const navigate = useNavigate()
+   const navigate = useNavigate()
+
+      const [formData , setformData]= useState({
+          name:"",
+          email:"",
+          password:"",
+          confirmpassword:""
+      })
+
+ const [error , setError]= useState(null)
+ 
+    const handleChange = (e)=>{
+        const { name, value} = e.target;
+
+        setformData({...formData, [name]:value})
+    }
+
+
+
+   const handleSubmit = (e)=>{
+     e.preventDefault();
+
+      if(!formData.name || !formData.email || !formData.password){
+        setError('all fields are required')
+         return
+     }
+
+      if(formData.confirmpassword != formData.password){
+        setError('password must match');
+        return
+      }
+     
+      
+
+   }
+
+  
     
   return (
     <Card>
@@ -25,46 +61,61 @@ const RegisterForm = () => {
             <CardDescription>Enter you detailes to register</CardDescription>
          </CardHeader>
          <CardContent>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-6">
+             {error && 
+               <p className='bg-destructive/50 p-2 rounded-md'>{error}</p>
+             }
             <div className="grid gap-2">
               <Label htmlFor="name">Name</Label>
               <Input
                 id="name"
                 type="text"
+                name="name"
                 placeholder="abdi"
-                required
+                 value={formData.name}
+                 onChange={handleChange}
+                
               />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
+                name="email"
                 type="email"
                 placeholder="example@gmail.com"
-                required
+                value={formData.email}
+                 onChange={handleChange}
+                
               />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="password">password</Label>
               <Input
                 id="password"
+                 name="password"
                 type="password"
                 placeholder="***********"
-                required
+                value={formData.password}
+                onChange={handleChange}
+                
               />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="confirmpassword">confirm password</Label>
               <Input
                 id="confirmpassword"
+                name="confirmpassword"
                 type="password"
                 placeholder="**********"
-                required
+                 value={formData.confirmpassword}
+                 onChange={handleChange}
+              
               />
             </div>
              
-             <Button>Create Account</Button>
+             <Button type="submit">Create Account</Button>
           </div>
         </form>
       </CardContent>

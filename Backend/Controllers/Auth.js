@@ -38,10 +38,15 @@ export const LoggIn = async (req, res, next) => {
                message:"inValid Email or password."
             })
          }
-
+      //  const userinfo = {
+      //     name:user.name,
+      
+      //     role : user.role
+      //  }
+      user.password = undefined
        const Token = generateToken(user._id)
          
-       res.status(201).json({Token})
+       res.status(201).json({Token , user})
    } catch (error) {
       next(error)
    }

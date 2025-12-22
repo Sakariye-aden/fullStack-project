@@ -15,9 +15,10 @@ import userRoutes from './Routes/user.js'
 import AdminRoute from './Routes/Admin.js'
 import TransactionRoute from './Routes/Transaction.js'
 import helmet from 'helmet';
+import { Limiter } from './middleware/LimitReq.js';
 
 app.use(helmet())
-
+app.use(Limiter)
 app.use(express.json())
 
 app.use(cors(

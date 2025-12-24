@@ -37,7 +37,6 @@ const LoginForm = () => {
    
            setformData({...formData, [name]:value})
        }
-   
      //  mutatation 
      const loginMutation = useMutation({
        mutationFn : async (credentials) => {
@@ -114,7 +113,7 @@ const LoginForm = () => {
                 </div>
                  
                  <Button>
-                   {loginMutation.isPending ? <span className='flex justify-center items-center gap-2'><Loader/> sign in</span> : 'sign in'}
+                   {loginMutation.isPending ? <span className='flex justify-center items-center gap-2'><Loader className='animate-spin'/> sign in</span> : 'sign in'}
                  </Button>
               </div>
             </form>

@@ -52,8 +52,13 @@ export const LoggIn = async (req, res, next) => {
    }
 }
 
-export const getProfile  = async (req, res) => {
+export const getProfile  = async (req, res, next) => {
       
-   const user = req.user
-    res.json(user)
+   try {
+       const user = req.user
+        res.json(user)
+   } catch (error) {
+      next(error)
+   }
+  
 }

@@ -8,6 +8,7 @@ import ReportPage from './Pages/ReportPage'
 import AdminPage from './Pages/AdminPage'
 import ProtectedRoute from './components/Auth/ProtectedRoute'
 import ProtectedAdmin from './components/Auth/ProtectedAdmin'
+import HomeDashboard from './Pages/HomeDashboard'
 
 function App() {
  
@@ -18,23 +19,23 @@ function App() {
            <Route path='/login'element={<LoginPage />}/>
            <Route path='/register'element={<RegisterPage/>}/>
            <Route path='/dashboard' 
-             element={
+              element={
                <ProtectedRoute>
                  <DashboardPage/>
                </ProtectedRoute>
-              }
-           
-           />
-           <Route path='/transaction' element={<TransactionPage/>}/>
-           <Route path='/report' element={<ReportPage/>}/>
-           <Route path='/admin' 
-             element={ 
-                <ProtectedAdmin>
-                   <AdminPage/>
-                </ProtectedAdmin>
-              }
-           
-           />
+                }
+              >
+              <Route index element={<HomeDashboard/>} />
+              <Route path='transactions' element={<TransactionPage/>}/>
+              <Route path='report' element={<ReportPage/>}/>
+               <Route path='admin' 
+                element={ 
+                  <ProtectedAdmin>
+                    <AdminPage/>
+                  </ProtectedAdmin>
+                }   
+               />
+             </Route>
            <Route path='/' element={<Navigate to='/login'/>}/>
         </Routes>
     </div>

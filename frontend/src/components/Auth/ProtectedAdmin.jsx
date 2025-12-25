@@ -3,6 +3,7 @@ import useAuthstore from '../../lib/Store/AuthStore'
 import { useQuery } from '@tanstack/react-query';
 import api from '../../lib/Api/ApiClient';
 import { Navigate, useLocation } from 'react-router';
+import { Loader } from 'lucide-react';
 
 const ProtectedAdmin = ({ children }) => {
       
@@ -32,6 +33,14 @@ const ProtectedAdmin = ({ children }) => {
             setAuth(data, token)
         }
     }, [data , isSuccess , setAuth])
+
+      if(isLoading){
+            return (
+               <div className='h-screen flex justify-center items-center'>
+                  <Loader className='animate-spin text-2xl' />
+               </div>
+            )
+         }
 
     if(isError){
         return <Navigate to="/login" state={{from : location}} replace />

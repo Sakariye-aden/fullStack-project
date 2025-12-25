@@ -1,8 +1,15 @@
-import React from 'react'
 
 const HomeDashboard = () => {
+
+  
+    
+   
+
   return (
-    <div>HomeDashboard</div>
+    <div>
+     <h1>HomeDashboard</h1>
+    
+    </div>
   )
 }
 

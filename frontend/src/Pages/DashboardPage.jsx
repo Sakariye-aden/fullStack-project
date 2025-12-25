@@ -27,16 +27,16 @@ const DashboardPage = () => {
    const [isOpen, setisOpen] = useState(true);
 
    return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen">
          {/* labtop designn */}
          <div className="hidden md:flex   min-h-screen">
             {/* left bar */}
             <div className="border-r bg-card">
                {/* nav */}
                <div className="bg-card border-b  p-2">
-                  <span className="font-medium text-2xl text-gray-800">Finance</span>
+                  <span className="font-medium text-2xl text-chart-4 ">Finance</span>
                   {isOpen && (
-                     <span className="pl-2 text-xl text-gray-500">Tracker</span>
+                     <span className="pl-2 text-xl ">Tracker</span>
                   )}
                </div>
 
@@ -103,7 +103,7 @@ const DashboardPage = () => {
                   </div>
                </div>
                {/* main component */}
-               <div>
+               <div className="bg-card h-screen">
                   <Outlet />
                </div>
             </div>
@@ -120,10 +120,10 @@ const DashboardPage = () => {
                      <SheetHeader>
                         <SheetTitle>
                            <div className="bg-card border-b  p-2">
-                              <span className="font-medium text-2xl text-gray-800">
+                              <span className="font-medium text-2xl text-chart-1">
                                  Finance
                               </span>
-                              <span className="pl-2 text-xl text-gray-500">Tracker</span>
+                              <span className="pl-2 text-xl">Tracker</span>
                            </div>
                         </SheetTitle>
                     

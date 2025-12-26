@@ -1,10 +1,9 @@
-import { useState } from 'react'
-import api from '../lib/Api/ApiClient'
-import { useQuery } from '@tanstack/react-query'
-import useAuthstore from '../lib/Store/AuthStore'
+import { Card, CardContent } from '@/components/ui/card';
+import { useQuery } from '@tanstack/react-query';
 import { Loader } from 'lucide-react';
-import {Card,CardHeader,CardFooter,CardTitle,CardAction,CardDescription,CardContent} from '@/components/ui/card'
-
+import { useState } from 'react';
+import api from '../lib/Api/ApiClient';
+import useAuthstore from '../lib/Store/AuthStore';
 
 
 const HomeDashboard = () => {
@@ -64,6 +63,10 @@ const HomeDashboard = () => {
            </Card>
          </div>
       </div>
+        {/*last transations  */}
+         <div className='bg-card p-4 shadow-lg'>
+            <h1 className='text-xl font-medium '>Recent Activities</h1>
+         </div>
     </div>
   );
 }

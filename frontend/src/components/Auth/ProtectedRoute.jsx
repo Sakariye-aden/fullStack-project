@@ -16,7 +16,6 @@ const ProtectedRoute = ({ children }) => {
      queryKey:['currentUser'],
      queryFn : async () => {
            const response = await api.get('auth/me');
-           console.log('result:', response);
            return response.data;
        },
        retry : 1
@@ -26,7 +25,6 @@ const ProtectedRoute = ({ children }) => {
     //  case Error
     useEffect(()=>{
          if(error){
-           console.log('err:',error);
            clearAuth()
          }
     }, [error, isError , clearAuth]) 

@@ -18,31 +18,31 @@ function getCategoryIcon(categoryName) {
     // Income categories
     case "food & drink":
       return "🍔";       // 
-    case "Housing":
+    case "housing":
       return "🏠";           // 
-    case "Transport":
+    case "transport":
       return "🚗";            // 
-    case "Shoping":
-      return "🛍️";    // 
-    case "Health":
+    case "shoping":
+      return "🛍️";    // 🛒
+    case "health":
       return "❤️";      // 
-    case "Education":
+    case "education":
       return "🎓";  // 
-    case "Entertainment":
+    case "entertainment":
       return "🎬";           // 
-    case "Bills & utility":
+    case "bills & utility":
       return "💡";           // 
 
     // Expense categories
-    case "Salary":
+    case "salary":
       return "💵";  // 
-    case "Freelance":
+    case "freelance":
       return "💻";     // 
-    case "Business":
+    case "business":
       return "📈";      // 
-    case "Investiment":
+    case "investiment":
       return "📊";      // 
-    case "Refound":
+    case "refound":
       return "🔄";           // 
     case "other income":
       return "🌐";          // 
@@ -57,6 +57,21 @@ function getCategoryIcon(categoryName) {
 console.log(getCategoryIcon("Transport")); // faCar
 console.log(getCategoryIcon("Salary"));    // faMoneyBillWave
 console.log(getCategoryIcon("Unknown"));   // faQuestionCircle
+
+function formatShortDate(dateInput) {
+  // Ensure we have a Date object
+  const date = new Date(dateInput);
+
+  // Options for short month, numeric day, and year
+  const options = { month: "short", day: "numeric", year: "numeric" };
+
+  // Use Intl.DateTimeFormat for proper localization
+  return new Intl.DateTimeFormat("en-US", options).format(date);
+}
+
+
+
+
 
 
 const HomeDashboard = () => {
@@ -107,6 +122,9 @@ const HomeDashboard = () => {
 
 
   return (
+
+
+
     <div className="bg-card h-min-screen p-4">
       <h1 className="text-2xl font-medium ">Hello, {user.name} 👏</h1>
       {/* cards */}
@@ -155,7 +173,32 @@ const HomeDashboard = () => {
             </TabsList>
              <hr />
             <TabsContent value="All">
-              Make changes to your account here.
+              <div>
+                {
+                 Alltrans.All.map((item)=>(
+                  <div key={item} className='bg-background border-b py-2  flex items-center space-x-2 '>
+                     <div className='text-5xl'>
+                       {getCategoryIcon(item.category)}
+                     </div>
+                      <div className='flex justify-between items-center flex-1'>
+                         <div className='flex flex-col'>
+                            <span className='text-lg font-medium'>{item.title}</span>
+                            <span>{item.category}</span>
+                         </div>
+                         <div className='flex flex-col'>
+                            <span>
+                             {
+                              item.type === "income" ? <span className='text-green-400 font-medium'>+${item.amount}</span>:
+                               <span className='font-medium'>-${item.amount}</span>
+                             }
+                            </span>
+                            <span>{formatShortDate(item.createdAt)}</span>
+                         </div>
+                      </div>
+                  </div>
+                 )) 
+               }
+              </div>      
             </TabsContent>
             <TabsContent value="Income">
                Income Values

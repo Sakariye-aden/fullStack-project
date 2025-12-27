@@ -189,7 +189,7 @@ const HomeDashboard = () => {
                             <span>
                              {
                               item.type === "income" ? <span className='text-green-400 font-medium'>+${item.amount}</span>:
-                               <span className='font-medium'>-${item.amount}</span>
+                               <span className='font-medium text-red-500'>-${item.amount}</span>
                              }
                             </span>
                             <span>{formatShortDate(item.createdAt)}</span>
@@ -201,10 +201,56 @@ const HomeDashboard = () => {
               </div>      
             </TabsContent>
             <TabsContent value="Income">
-               Income Values
+               {
+                 Alltrans.Income.map((item)=>(
+                  <div key={item} className='bg-background border-b py-2  flex items-center space-x-2 '>
+                     <div className='text-5xl'>
+                       {getCategoryIcon(item.category)}
+                     </div>
+                      <div className='flex justify-between items-center flex-1'>
+                         <div className='flex flex-col'>
+                            <span className='text-lg font-medium'>{item.title}</span>
+                            <span>{item.category}</span>
+                         </div>
+                         <div className='flex flex-col'>
+                            <span>
+                             {
+                              item.type === "income" ? <span className='text-green-400 font-medium'>+${item.amount}</span>:
+                               <span className='font-medium'>-${item.amount}</span>
+                             }
+                            </span>
+                            <span>{formatShortDate(item.createdAt)}</span>
+                         </div>
+                      </div>
+                  </div>
+                 )) 
+               }  
             </TabsContent>
             <TabsContent value="Expense">
-              Expense value
+                {
+                 Alltrans.expense.map((item)=>(
+                  <div key={item} className='bg-background border-b py-2  flex items-center space-x-2 '>
+                     <div className='text-5xl'>
+                       {getCategoryIcon(item.category)}
+                     </div>
+                      <div className='flex justify-between items-center flex-1'>
+                         <div className='flex flex-col'>
+                            <span className='text-lg font-medium'>{item.title}</span>
+                            <span>{item.category}</span>
+                         </div>
+                         <div className='flex flex-col'>
+                            <span>
+                             {
+                              item.type === "income" ? <span className='text-green-400 font-medium'>+${item.amount}</span>:
+                               <span className='font-medium text-red-500'>-${item.amount}</span>
+                             }
+                            </span>
+                            <span>{formatShortDate(item.createdAt)}</span>
+                         </div>
+                      </div>
+                  </div>
+                 )) 
+               }
             </TabsContent>
           </Tabs>
         </div>

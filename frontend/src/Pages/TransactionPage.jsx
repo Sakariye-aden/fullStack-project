@@ -82,8 +82,15 @@ const expenseCatag = ["food & drink", "Housing", "Transport","Shoping","Health",
 
       const [isEdit , setisEdit ] = useState(null)
       const [isOpen, setIsOpen]= useState(false)
+      const [formData , setformData]=useState({
+         title : "",
+         amount:1,
+         type:"",
+         category :""
+      })
 
-   
+      const [Error , setError ] = useState(null)
+       
        const HandleOpen = ()=>{
          setIsOpen(false)
          setisEdit(null)
@@ -117,6 +124,34 @@ const expenseCatag = ["food & drink", "Housing", "Transport","Shoping","Health",
        )
     }
    
+    // handle change 
+     const handleChange = (e)=>{
+         const {name , value }= e.target;
+
+          setformData({...formData , [name]: value })
+      }
+      // handle select
+    const handleSelect =(field)=> (value)=>{
+      setformData({ ...formData, [field]: value });     
+    }
+
+    //   submit form 
+     const handleSubmit = (e)=>{
+       e.preventDefault();
+          
+       if(!formData.title || !formData.amount ||!formData.category || !formData.type ){
+          console.log('errors happaned.');
+          setError('All fields required.')
+          return
+       }
+
+         setError(null)
+         
+          console.log('handle submit :', formData);
+     }
+
+
+
 
 
 
@@ -214,56 +249,68 @@ const expenseCatag = ["food & drink", "Housing", "Transport","Shoping","Health",
       </div>
       {/* Dialog */}
       <Dialog open={isOpen || !!isEdit} onOpenChange={HandleOpen}>
-        <form>
-          <DialogContent className="sm:max-w-106.25">
-            <DialogHeader>
-              <DialogTitle>
-                {isEdit ? "Editing Transaction " : "Adding Transaction"}
-              </DialogTitle>
-              <DialogDescription>
-                {isEdit ? "Make changes to your " : "Adding "}
-                Transaction here. Click save when you&apos;re done.
-              </DialogDescription>
-            </DialogHeader>
+        <DialogContent className="sm:max-w-106.25">
+          <DialogHeader>
+            <DialogTitle>
+              {isEdit ? "Editing Transaction " : "Adding Transaction"}
+            </DialogTitle>
+            <DialogDescription>
+              {isEdit ? "Make changes to your " : "Adding "}
+              Transaction here. Click save when you&apos;re done.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleSubmit}>
             <div className="grid gap-4">
+              {Error && (
+                <p className="bg-destructive/50 p-2 rounded-md">{Error}</p>
+              )}
               <div className="grid gap-3">
                 <Label htmlFor="title">Title *</Label>
                 <Input
                   id="title"
                   type="text"
                   name="title"
+                  value={formData.title}
+                  onChange={handleChange}
                   placeholder="@peduarte"
-                  required
                 />
               </div>
               <div className="grid gap-3">
                 <Label htmlFor="type">expense category *</Label>
-                <Select>
+                <Select 
+                  onValueChange={handleSelect('category')}
+                 value={formData.category}
+                >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
-                  <SelectContent className='overflow-y-scroll'>
-                    {expenseCatag.map(item =>(
-                       <SelectItem value={item} key={item} >{item}</SelectItem>
-                    ))
-                    }
+                  <SelectContent className="overflow-y-scroll">
+                    {expenseCatag.map((item) => (
+                      <SelectItem value={item} key={item} >
+                        {item}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
-            
+
               <div className="grid gap-3">
                 <Label htmlFor="amount">Amount *</Label>
                 <Input
                   type="number"
                   id="amount"
                   name="amount"
+                  value={formData.amount}
+                  onChange={handleChange}
                   min={1}
-                  required
                 />
               </div>
               <div className="grid gap-3">
                 <Label htmlFor="type">Type *</Label>
-                <Select>
+                <Select 
+                  onValueChange={handleSelect('type')}
+                   value={formData.type}
+                >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select a fruit" />
                   </SelectTrigger>
@@ -280,8 +327,8 @@ const expenseCatag = ["food & drink", "Housing", "Transport","Shoping","Health",
               </DialogClose>
               <Button type="submit">Save changes</Button>
             </DialogFooter>
-          </DialogContent>
-        </form>
+          </form>
+        </DialogContent>
       </Dialog>
     </div>
   );

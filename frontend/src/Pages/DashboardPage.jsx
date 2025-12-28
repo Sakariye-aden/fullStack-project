@@ -85,11 +85,11 @@ const DashboardPage = () => {
            </div>
            <div className="fixed bottom-0 ">
              <div className="flex p-2">
-               <Avatar className="h-10 w-10">
+               <Avatar className="h-10 w-10 ">
                  <AvatarImage src="https://img.freepik.com/premium-vector/man-professional-business-casual-young-avatar-icon-illustration_1277826-629.jpg" />
                  <AvatarFallback>CN</AvatarFallback>
                </Avatar>
-               <div className="flex flex-col overflow-hidden">
+               <div className="flex flex-col overflow-hidden ">
                  {isOpen && (
                    <span className="font-medium text-lg">{user.name}</span>
                  )}

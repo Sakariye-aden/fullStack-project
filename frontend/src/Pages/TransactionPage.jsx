@@ -9,8 +9,9 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-
-   
+import { Select,SelectContent,
+  SelectItem,SelectTrigger,SelectValue,
+} from "@/components/ui/select"
 
 
 
@@ -67,7 +68,9 @@ function formatShortDate(dateInput) {
   return new Intl.DateTimeFormat("en-US", options).format(date);
 }
 
-
+const incomeCatag = ["food & drink", "Housing", "Transport","Shoping","Health","Education","Entertainment","Bills & utility"]
+//  expense category 
+const expenseCatg= ["Salary", "Freelance", "Business","Investiment","Refound","other income"]
 
 
 
@@ -89,10 +92,11 @@ function formatShortDate(dateInput) {
        
        const handleEdit = (item)=>{
         //  setIsOpen(true)
-         setIsOpen(item)
+           setisEdit(item)
        }
 
 
+       
 
              //  transactionQuery
       const {data , error, isLoading } = useQuery({
@@ -125,7 +129,9 @@ function formatShortDate(dateInput) {
           View and Manage all your income and expense you've added to your
           account
         </p>
-        <Button className="cursor-pointer" onClick={()=> setIsOpen(true)}>Add Transaction</Button>
+        <Button className="cursor-pointer" onClick={() => setIsOpen(true)}>
+          Add Transaction
+        </Button>
       </div>
 
       {/* summary card  */}
@@ -191,9 +197,10 @@ function formatShortDate(dateInput) {
                     ${item.amount}
                   </td>
                   <td className="px-4 py-2 flex ">
-                    <button className="p-1  text-sm  rounded cursor-pointer "
-                       onClick={()=> handleEdit(item)}
-                     >
+                    <button
+                      className="p-1  text-sm  rounded cursor-pointer "
+                      onClick={() => handleEdit(item)}
+                    >
                       <Pencil className="w-4 h-4 text-blue-500" />
                     </button>
                     <button className="p-1 text-sm rounded cursor-pointer">
@@ -211,24 +218,58 @@ function formatShortDate(dateInput) {
         <form>
           <DialogContent className="sm:max-w-106.25">
             <DialogHeader>
-              <DialogTitle>Edit profile</DialogTitle>
+              <DialogTitle>
+                {isEdit ? "Editing Transaction " : "Adding Transaction"}
+              </DialogTitle>
               <DialogDescription>
-                Make changes to your profile here. Click save when you&apos;re
-                done.
+                {isEdit ? "Make changes to your " : "Adding "}
+                Transaction here. Click save when you&apos;re done.
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4">
               <div className="grid gap-3">
-                <Label htmlFor="name-1">Name</Label>
-                <Input id="name-1" name="name" defaultValue="Pedro Duarte" />
+                <Label htmlFor="title">Title *</Label>
+                <Input
+                  id="title"
+                  type="text"
+                  name="title"
+                  placeholder="@peduarte"
+                  required
+                />
               </div>
               <div className="grid gap-3">
-                <Label htmlFor="username-1">Username</Label>
+                <Label htmlFor="type">category</Label>
+                <Select>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select a fruit" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="income">income</SelectItem>
+                    <SelectItem value="expense">expense</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid gap-3">
+                <Label htmlFor="amount">Amount *</Label>
                 <Input
-                  id="username-1"
-                  name="username"
-                  defaultValue="@peduarte"
+                  type="number"
+                  id="amount"
+                  name="amount"
+                  min={1}
+                  required
                 />
+              </div>
+              <div className="grid gap-3">
+                <Label htmlFor="type">Type</Label>
+                <Select>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select a fruit" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="income">income</SelectItem>
+                    <SelectItem value="expense">expense</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
             <DialogFooter>

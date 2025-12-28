@@ -80,7 +80,7 @@ const HomeDashboard = () => {
 
 
       const { user } = useAuthstore()
-     const [result , setResult ] = useState([])
+     
   
      const navigate = useNavigate()
 

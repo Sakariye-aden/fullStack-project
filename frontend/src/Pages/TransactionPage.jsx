@@ -14,6 +14,7 @@ import { Select,SelectContent,
 } from "@/components/ui/select"
 
 import toast from 'react-hot-toast';
+import { errorhandle } from '../utility/errorHandle';
 
 
 
@@ -100,6 +101,15 @@ const expenseCatag = ["food & drink", "Housing", "Transport","Shoping","Health",
       // handle Edit 
        const handleEdit = (item)=>{
            setisEdit(item)
+           
+          //  update form
+          setformData({
+            title : item.title,
+            amount: item.amount,
+            type:  item.type,
+            category : item.category,
+            saving: item.saving
+         })
        }
 
 
@@ -116,41 +126,42 @@ const expenseCatag = ["food & drink", "Housing", "Transport","Shoping","Health",
      
       // post Mutation trans
        const createMutation = useMutation({
-          mutationFn : async () => {
-             const response = await api.post('/transactions');
-               console.log('post trans', response);
+          mutationFn : async (userData) => {
+             const response = await api.post('/transactions', userData);
               return response.data
            },
-           onSuccess : (data)=>{
-               console.log('data trans:', data);
+           onSuccess : ()=>{
                queryClient.invalidateQueries('trans')
                toast.success('transaction created successfully.')
+               setIsOpen(false)
            },
            onError: (error)=>{
-              console.log('error trans',error);
-              setError(error.message)
+              toast.error(errorhandle(error))
            }
        })
 
-      // edit mutation trans
-
+      // put mutation trans
+       const UpdateMutation = useMutation({
+         mutationFn : async (updateData) => {
+            const response = await api.put(`/transactions/${isEdit._id}`, updateData);
+             
+            return response.data;
+          },
+          onSuccess : (data)=>{
+            toast.success(data.message)
+            queryClient.invalidateQueries('trans')
+             setisEdit(null)
+          },
+          onError : (error)=>{
+            toast.error(errorhandle(error))
+          }
+       })
 
       // delete mutation trans
-
-
-
-       if(isLoading){
-       return (
-          <div className='h-screen flex justify-center items-center'>
-             <Loader className='animate-spin text-3xl' />
-          </div>
-       )
-     }
    
     // handle change 
      const handleChange = (e)=>{
          const {name , value }= e.target;
-
           setformData({...formData , [name]: value })
       }
       // handle select
@@ -179,14 +190,46 @@ const expenseCatag = ["food & drink", "Housing", "Transport","Shoping","Health",
          
          console.log('userData',userData);
 
-        //  create Trans 
-        // createMutation.mutate({
-        //    userData
-        // })
-        setIsOpen(false)
+         if(isEdit){
+            // updated transaction
+             UpdateMutation.mutate({
+               title : formData.title.trim(),
+               amount : Number(formData.amount),
+               type: formData.type,
+               category : formData.category,
+               saving : Number(formData.saving)
+             })
+         }else{
+            //  creating transaction
+            createMutation.mutate({
+              title : formData.title.trim(),
+              amount : Number(formData.amount),
+              type: formData.type,
+              category : formData.category,
+              saving : Number(formData.saving)
+           })
+         }
+
+        //  clear form after submiited 
+
+         setformData({
+            title : "",
+            amount:0,
+            type:"",
+            category :"",
+            saving:0
+         })
      }
+  
 
 
+      if(isLoading){
+       return (
+          <div className='h-screen flex justify-center items-center'>
+             <Loader className='animate-spin text-3xl' />
+          </div>
+       )
+     }
 
 
 
@@ -323,7 +366,7 @@ const expenseCatag = ["food & drink", "Housing", "Transport","Shoping","Health",
                   </SelectTrigger>
                   <SelectContent className="overflow-y-scroll">
                     {expenseCatag.map((item) => (
-                      <SelectItem value={item} key={item}>
+                      <SelectItem value={item.toLowerCase()} key={item}>
                         {item}
                       </SelectItem>
                     ))}
@@ -349,7 +392,7 @@ const expenseCatag = ["food & drink", "Housing", "Transport","Shoping","Health",
                   value={formData.type}
                 >
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select a fruit" />
+                    <SelectValue placeholder="Select type" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="income">income</SelectItem>
@@ -373,7 +416,12 @@ const expenseCatag = ["food & drink", "Housing", "Transport","Shoping","Health",
               <DialogClose asChild>
                 <Button variant="outline">Cancel</Button>
               </DialogClose>
-              <Button type="submit">Save changes</Button>
+              <Button type="submit">
+                {createMutation.isPending || UpdateMutation.isPending ? 
+                   <span className='flex justify-center items-center gap-2'><Loader className='animate-spin'/>Save changes</span> 
+                 : "Save changes"
+                }  
+              </Button>
             </DialogFooter>
           </form>
         </DialogContent>

@@ -225,7 +225,7 @@ const ReportPage = () => {
         </div>
       </div>
        {/* Income vs Expense */}
-       <div>
+       <div className="border my-3">
            <h1 className="text-2xl font-medium p-2 border-b ">Income vs Expense</h1>
            <div className="bg-card p-2 w-full max-w-xl  h-90 m-auto">
               <Line  data={DataLine}  options={lineOptions}/>

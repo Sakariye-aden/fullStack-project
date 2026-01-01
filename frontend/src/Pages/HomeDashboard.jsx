@@ -55,18 +55,12 @@ function getCategoryIcon(categoryName) {
   }
 }
 
-// Example usage:
-console.log(getCategoryIcon("Transport")); // faCar
-console.log(getCategoryIcon("Salary"));    // faMoneyBillWave
-console.log(getCategoryIcon("Unknown"));   // faQuestionCircle
 
 function formatShortDate(dateInput) {
   // Ensure we have a Date object
   const date = new Date(dateInput);
-
   // Options for short month, numeric day, and year
   const options = { month: "short", day: "numeric", year: "numeric" };
-
   // Use Intl.DateTimeFormat for proper localization
   return new Intl.DateTimeFormat("en-US", options).format(date);
 }
@@ -148,9 +142,6 @@ const HomeDashboard = () => {
 
 
   return (
-
-
-
     <div className="bg-card h-min-screen p-4">
       <h1 className="text-2xl font-medium ">Hello, {user.name} 👏</h1>
       {/* cards */}
@@ -190,93 +181,131 @@ const HomeDashboard = () => {
         <h1 className="text-xl font-medium border-b pb-2">
           Recent Transactions
         </h1>
-        <div className='py-3'>
+        <div className="py-3">
           <Tabs defaultValue="All" className="w-full">
-            <TabsList className='w-full my-1'>
+            <TabsList className="w-full my-1">
               <TabsTrigger value="All">All</TabsTrigger>
               <TabsTrigger value="Income">Income</TabsTrigger>
               <TabsTrigger value="Expense">Expense</TabsTrigger>
             </TabsList>
-             <hr />
+            <hr />
             <TabsContent value="All">
               <div>
-                {
-                 Alltrans.All.map((item)=>(
-                  <div key={item} className='bg-background border-b py-2  flex items-center space-x-2 '>
-                     <div className='text-5xl'>
-                       {getCategoryIcon(item.category)}
-                     </div>
-                      <div className='flex justify-between items-center flex-1'>
-                         <div className='flex flex-col'>
-                            <span className='text-lg font-medium'>{item.title}</span>
-                            <span>{item.category}</span>
-                         </div>
-                         <div className='flex flex-col'>
-                            <span>
-                             {
-                              item.type === "income" ? <span className='text-green-400 font-medium'>+${item.amount}</span>:
-                               <span className='font-medium text-red-500'>-${item.amount}</span>
-                             }
-                            </span>
-                            <span>{formatShortDate(item.createdAt)}</span>
-                         </div>
+                {Alltrans.All.map((item) => (
+                  <div
+                    key={item}
+                    className="bg-background border-b py-2  flex items-center space-x-2 "
+                  >
+                    <div className="text-5xl">
+                      {getCategoryIcon(item.category)}
+                    </div>
+                    <div className="flex justify-between items-center flex-1">
+                      <div className="flex flex-col">
+                        <span className="text-lg font-medium">
+                          {item.title}
+                        </span>
+                        <span>{item.category}</span>
                       </div>
+                      <div className="flex flex-col">
+                        <span>
+                          {item.type === "income" ? (
+                            <span className="text-green-400 font-medium">
+                              +${item.amount}
+                            </span>
+                          ) : (
+                            <span className="font-medium text-red-500">
+                              -${item.amount}
+                            </span>
+                          )}
+                        </span>
+                        <span>{formatShortDate(item.createdAt)}</span>
+                      </div>
+                    </div>
                   </div>
-                 )) 
-               }
-              </div>      
+                ))}
+              </div>
             </TabsContent>
             <TabsContent value="Income">
-               {
-                 Alltrans.Income.map((item)=>(
-                  <div key={item} className='bg-background border-b py-2  flex items-center space-x-2 '>
-                     <div className='text-5xl'>
-                       {getCategoryIcon(item.category)}
-                     </div>
-                      <div className='flex justify-between items-center flex-1'>
-                         <div className='flex flex-col'>
-                            <span className='text-lg font-medium'>{item.title}</span>
-                            <span>{item.category}</span>
-                         </div>
-                         <div className='flex flex-col'>
-                            <span>
-                             {
-                              item.type === "income" ? <span className='text-green-400 font-medium'>+${item.amount}</span>:
-                               <span className='font-medium'>-${item.amount}</span>
-                             }
-                            </span>
-                            <span>{formatShortDate(item.createdAt)}</span>
-                         </div>
+              {Alltrans.Income.length === 0 ? (
+                <Empty className="flex justify-center items-center">
+                  <EmptyHeader>
+                    <EmptyTitle>No Income yet.</EmptyTitle>
+                  </EmptyHeader>
+                </Empty>
+              ) : (
+                Alltrans.Income.map((item) => (
+                  <div
+                    key={item}
+                    className="bg-background border-b py-2  flex items-center space-x-2 "
+                  >
+                    <div className="text-5xl">
+                      {getCategoryIcon(item.category)}
+                    </div>
+                    <div className="flex justify-between items-center flex-1">
+                      <div className="flex flex-col">
+                        <span className="text-lg font-medium">
+                          {item.title}
+                        </span>
+                        <span>{item.category}</span>
                       </div>
+                      <div className="flex flex-col">
+                        <span>
+                          {item.type === "income" ? (
+                            <span className="text-green-400 font-medium">
+                              +${item.amount}
+                            </span>
+                          ) : (
+                            <span className="font-medium">-${item.amount}</span>
+                          )}
+                        </span>
+                        <span>{formatShortDate(item.createdAt)}</span>
+                      </div>
+                    </div>
                   </div>
-                 )) 
-               }  
+                ))
+              )}
             </TabsContent>
             <TabsContent value="Expense">
-                {
-                 Alltrans.expense.map((item)=>(
-                  <div key={item} className='bg-background border-b py-2  flex items-center space-x-2 '>
-                     <div className='text-5xl'>
-                       {getCategoryIcon(item.category)}
-                     </div>
-                      <div className='flex justify-between items-center flex-1'>
-                         <div className='flex flex-col'>
-                            <span className='text-lg font-medium'>{item.title}</span>
-                            <span>{item.category}</span>
-                         </div>
-                         <div className='flex flex-col'>
-                            <span>
-                             {
-                              item.type === "income" ? <span className='text-green-400 font-medium'>+${item.amount}</span>:
-                               <span className='font-medium text-red-500'>-${item.amount}</span>
-                             }
-                            </span>
-                            <span>{formatShortDate(item.createdAt)}</span>
-                         </div>
+              {Alltrans.expense.length === 0 ? (
+                <Empty className="flex justify-center items-center">
+                  <EmptyHeader>
+                    <EmptyTitle>No Expense yet.</EmptyTitle>
+                  </EmptyHeader>
+                </Empty>
+              ) : (
+                Alltrans.expense.map((item) => (
+                  <div
+                    key={item}
+                    className="bg-background border-b py-2  flex items-center space-x-2 "
+                  >
+                    <div className="text-5xl">
+                      {getCategoryIcon(item.category)}
+                    </div>
+                    <div className="flex justify-between items-center flex-1">
+                      <div className="flex flex-col">
+                        <span className="text-lg font-medium">
+                          {item.title}
+                        </span>
+                        <span>{item.category}</span>
                       </div>
+                      <div className="flex flex-col">
+                        <span>
+                          {item.type === "income" ? (
+                            <span className="text-green-400 font-medium">
+                              +${item.amount}
+                            </span>
+                          ) : (
+                            <span className="font-medium text-red-500">
+                              -${item.amount}
+                            </span>
+                          )}
+                        </span>
+                        <span>{formatShortDate(item.createdAt)}</span>
+                      </div>
+                    </div>
                   </div>
-                 )) 
-               }
+                ))
+              )}
             </TabsContent>
           </Tabs>
         </div>

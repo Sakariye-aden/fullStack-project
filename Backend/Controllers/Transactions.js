@@ -6,7 +6,6 @@ export const createTransaction = async (req, res, next) => {
     try {
         
      const newOne = await transaction.create({...req.body, createdBy:req.user._id})
-        console.log('trans:', newOne);
        res.status(201).json({
          success : true ,
          message : "Transaction Created successFully"

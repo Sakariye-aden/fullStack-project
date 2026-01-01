@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { ArrowRightLeft, Loader, Pencil, User } from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import api from '../lib/Api/ApiClient'
 
@@ -10,6 +10,7 @@ import { AlertDialog, AlertDialogCancel,
    AlertDialogHeader,AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import {Button } from '@/components/ui/button'
+import toast from 'react-hot-toast';
 
 
 
@@ -19,6 +20,8 @@ import {Button } from '@/components/ui/button'
  
       const [ editRole , setEditRole ]=useState(null)
       const [isOpen , setIsOpen ]= useState(false);
+       
+      const queryClient = useQueryClient()
 
 
     const handleOpen = ()=>{
@@ -49,8 +52,24 @@ import {Button } from '@/components/ui/button'
            }
         })
 
-   
-         
+      //  put Role user 
+         const UpdateroleMutation = useMutation({
+            mutationFn : async (updateData) => {
+              const response = await api.put(`/admin/userinfo/${editRole?._id}`, updateData);
+
+               return response.data;
+            }, 
+            onSuccess : (data)=>{
+              toast.success(data);
+               queryClient.invalidateQueries(['adminInfo'])
+               setEditRole(null)
+              console.log('data updated:',data);
+            },
+            onError : (error)=>{
+              console.log('error :', error);
+              toast.error('error occured ')
+            }
+         })
 
        
       if(isLoading || Loading){
@@ -65,6 +84,22 @@ import {Button } from '@/components/ui/button'
   const handleEdit = (User)=>{
       setEditRole(User)
   }
+
+
+  const updateRole = async () => {
+      
+       if(editRole.role === 'user'){
+         UpdateroleMutation.mutateAsync({
+           role : 'admin'
+         })
+       }else{
+         UpdateroleMutation.mutateAsync({
+           role : 'user'
+         })
+       }
+  }
+
+
 
 
 
@@ -188,16 +223,15 @@ import {Button } from '@/components/ui/button'
                   <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
         
-                    <Button >
-                      {/* {DeleteMutation.isPending ? (
+                    <Button onClick={updateRole}>
+                      {UpdateroleMutation.isPending ? (
                         <span className="flex justify-center items-center gap-2">
                           <Loader className="animate-spin" />
-                          Delete
+                          updating
                         </span>
                       ) : (
-                        "Delete"
-                      )} */}
-                       Update
+                        "Update"
+                      )}    
                     </Button>
                   </AlertDialogFooter>
                 </AlertDialogContent>

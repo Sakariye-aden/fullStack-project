@@ -37,7 +37,7 @@ export const AdminInfo = async (req, res, next) => {
     }
 }
 
-
+// users information 
 export const UserInfoAdmin = async (req, res, next ) => {
    
    try {
@@ -48,4 +48,22 @@ export const UserInfoAdmin = async (req, res, next ) => {
    } catch (error) {
      next(error)
    }
+}
+
+// Update Role 
+export const UpdateRole = async (req, res, next) => {
+   
+   const  { id }= req.params;
+
+   try {
+        const updateuser = await User.findByIdAndUpdate(
+          {_id:id },
+          { $set: { "role" : req.body.role } }
+        )
+
+         res.status(201).json('user Updated role successfully')
+   } catch (error) {
+     next(error)
+   }
+
 }

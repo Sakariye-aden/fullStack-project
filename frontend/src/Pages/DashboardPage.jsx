@@ -1,7 +1,7 @@
 import { ArrowRightLeft,ChartColumn, LayoutDashboard, LogOut,Menu, Moon, Sun, UserStar, } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-import { Link, Outlet } from "react-router";
+import { Link, Outlet, useNavigate } from "react-router";
 import useAuthstore from "../lib/Store/AuthStore";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
@@ -21,6 +21,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import useThemeStore from "../lib/Store/ThemeStore";
+import { useQueryClient } from "@tanstack/react-query";
 
 
 
@@ -34,7 +35,15 @@ const DashboardPage = () => {
    const { user, clearAuth } = useAuthstore();
    const [isOpen, setisOpen] = useState(true);
 
+    const navigate = useNavigate();
+    const queryclient = useQueryClient()  
 
+
+    const handleLogout = ()=>{
+        clearAuth();
+        queryclient.clear();
+        navigate('/login', {replace : true })
+    }
 
 
 
@@ -97,7 +106,7 @@ const DashboardPage = () => {
                </div>
              </div>
              <div className="p-2 ">
-               <Button onClick={clearAuth}>
+               <Button onClick={handleLogout}>
                  <LogOut />
                  Logout
                </Button>

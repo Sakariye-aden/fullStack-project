@@ -214,7 +214,7 @@ const DashboardPage = () => {
                    </div>
                  </div>
                  <div className="p-2 ">
-                   <Button onClick={clearAuth}>
+                   <Button onClick={handleLogout}>
                      <LogOut />
                      Logout
                    </Button>

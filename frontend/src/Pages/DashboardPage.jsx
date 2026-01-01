@@ -94,21 +94,21 @@ const DashboardPage = () => {
            </div>
            <div className="fixed bottom-0 ">
              <div className="flex p-2">
-               <Avatar className="h-10 w-10 ">
+               <Avatar className="h-14 w-14 ">
                  <AvatarImage src="https://img.freepik.com/premium-vector/man-professional-business-casual-young-avatar-icon-illustration_1277826-629.jpg" />
                  <AvatarFallback>CN</AvatarFallback>
                </Avatar>
-               <div className="flex flex-col overflow-hidden ">
+               <div className="flex flex-col pl-2 inset-0 overflow-hidden ">
                  {isOpen && (
                    <span className="font-medium text-lg">{user.name}</span>
                  )}
-                 {isOpen && <span>{user.email}</span>}
+                 {isOpen && <span>{user.role}</span>}
                </div>
              </div>
              <div className="p-2 ">
                <Button onClick={handleLogout}>
                  <LogOut />
-                 Logout
+                 {isOpen && 'Logout'}
                </Button>
              </div>
            </div>

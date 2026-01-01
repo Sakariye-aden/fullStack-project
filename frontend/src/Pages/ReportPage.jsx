@@ -145,7 +145,7 @@ const ReportPage = () => {
             pointBorderWidth: 2,
             pointBackgroundColor: "rgba(0,255,0,0.6)",
             tension: 0.4,
-            pointRadius: 2,
+            pointRadius: 4,
             yAxisID: "yIncome", // ✅
           },
           {
@@ -155,7 +155,7 @@ const ReportPage = () => {
             backgroundColor: "rgba(255, 0, 0, 0.2)",
             fill: true,
             tension: 0.4,
-            pointRadius: 2,
+            pointRadius: 4,
             yAxisID: "yExpense", // ✅
           },
         ],
@@ -233,29 +233,49 @@ const ReportPage = () => {
         Understand your Spending patterns and Financial trends
       </p>
       {/* expense category */}
-      <div className="border my-2">
-        <h1 className="text-2xl  font-medium p-2 border-b ">Spending by category</h1>
-        <div className="bg-card p-2 w-full max-w-xl  h-80  m-auto">
-          <Doughnut data={Data} options={options} />
+      {Expenses.length === 0 ? (
+         <Empty >
+                 <EmptyHeader>
+                   <EmptyMedia variant="icon">
+                     <FolderArchive />
+                   </EmptyMedia>
+                   <EmptyTitle>📉No Expense data Available.</EmptyTitle>
+                   <EmptyDescription>
+                     You haven&apos;t made any Expense yet. when you spend it it will appear here
+                   </EmptyDescription>
+                 </EmptyHeader>
+               </Empty>
+      ) : (
+        <div className="border my-2">
+          <h1 className="text-2xl  font-medium p-2 border-b ">
+            Spending by category
+          </h1>
+          <div className="bg-card p-2 w-full max-w-xl  h-80  m-auto">
+            <Doughnut data={Data} options={options} />
+          </div>
+          <div className="border-t p-2 flex justify-around items-center">
+            <div className="flex flex-col">
+              <span className="text-lg font-bold ">${totalBalance}</span>
+              <span>Balance</span>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-lg font-bold text-red-500">
+                ${totalExpense}
+              </span>
+              <span>Expense</span>
+            </div>
+          </div>
         </div>
-        <div className="border-t p-2 flex justify-around items-center">
-           <div className="flex flex-col">
-             <span className="text-lg font-bold ">${totalBalance}</span>
-             <span>Balance</span>
-           </div>
-           <div className="flex flex-col">
-             <span className="text-lg font-bold text-red-500">${totalExpense}</span>
-             <span>Expense</span>
-           </div>
+      )}
+      {/* Income vs Expense */}
+      <div className="border my-3">
+        <h1 className="text-2xl font-medium p-2 border-b ">
+          Income vs Expense
+        </h1>
+        <div className="bg-card p-2 w-full max-w-xl  h-90 m-auto">
+          <Line data={DataLine} options={lineOptions} />
         </div>
       </div>
-       {/* Income vs Expense */}
-       <div className="border my-3">
-           <h1 className="text-2xl font-medium p-2 border-b ">Income vs Expense</h1>
-           <div className="bg-card p-2 w-full max-w-xl  h-90 m-auto">
-              <Line  data={DataLine}  options={lineOptions}/>
-           </div>
-       </div>
     </div>
   );
 }

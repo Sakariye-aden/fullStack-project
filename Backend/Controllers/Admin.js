@@ -1,47 +1,33 @@
 import transaction from '../model/Transaction.js'
-
+import User from '../model/user.js'
 
 export const AdminInfo = async (req, res, next) => {
     
     try {
-      // users
-         const usersinfo = await transaction.aggregate([
-            {$group : {
-                _id:"$createdBy"
-              } 
-            },
-            {
-              $project :{
-                "_id":0,
-                "users":"$_id"
-              }
-            }
+      const totalUsers = await User.countDocuments();
+      const totalTransactions = await transaction.countDocuments();
 
-         ])
+      const totals = await transaction.aggregate([
+        {
+          $group: {
+            _id: "$type",
+            totalAmount: { $sum: "$amount" },
+          },
+        },
+      ]);
 
-        //  categories
-      const  categoryInfo = await transaction.aggregate([
-         
-           {$match: {type: 'expense'}},
-          {$group: {
-             _id : "$category",
-             totalSpent :{$sum : "$amount"}
-           }
-         },
-         { $project: {
-             "_id":0,
-             "category":"$_id",
-             "totalSpend":"$totalSpent"
-           }
-         },
-         {$sort: { totalSpend : 1}},
-         {$limit: 7}
-      ])
+      const totalIncome =
+        totals.find((t) => t._id === "income")?.totalAmount || 0;
+
+      const totalExpense =
+        totals.find((t) => t._id === "expense")?.totalAmount || 0;
 
       res.json({
-         totalUsers: usersinfo,
-         totalSpent: categoryInfo
-    })
+        totalUsers,
+        totalTransactions,
+        totalIncome,
+        totalExpense,
+      });
     } catch (error) {
         next(error)
     }

@@ -103,6 +103,12 @@ import { expenseCatag , getCategoryIcon } from './TransactionPage'
        }
   }
 
+  const editCategory =(category)=>{
+        console.log('category clicked:',category);
+        console.log(expenseCatag.indexOf(category));
+  }
+
+
 
 
 
@@ -204,10 +210,18 @@ import { expenseCatag , getCategoryIcon } from './TransactionPage'
           </div>
            </div>
       {/* cateGory management */}
-           <h3 className='text-xl font-medium py-4 my-3 '>Category Management</h3>
+           {/* <h3 className='text-xl font-medium py-4 my-3 '>Category Management</h3>
           <div>
-             
-          </div>
+              {
+                expenseCatag.map((category, index)=>(
+                  <div key={index}>
+                     <span>{getCategoryIcon(category.toLowerCase())}</span>
+                     <span>{category}</span>
+                     <button onClick={()=>editCategory(category)}> <Pencil className="w-4 h-4 text-blue-500" /></button>
+                  </div>
+                ))
+              }
+          </div> */}
       {/* Transaction monitoring */}
 
 

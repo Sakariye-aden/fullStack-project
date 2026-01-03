@@ -8,7 +8,10 @@ const app = express()
  dotenv.config()
 const PORT = process.env.PORT
 import morgan from 'morgan';
-import cors from 'cors'
+import cors from 'cors';
+
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 // routes 
 import userRoutes from './Routes/user.js'
@@ -42,6 +45,20 @@ app.use('/api/health', (req,res)=>{
     res.send('heay welcome to healthy route ')
 })
 
+// server front end in production 
+if(process.env.NODE_ENV == "production"){
+ 
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+    app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+    // serve the frontend app 
+
+    app.get(/.*/, (req, res)=>{
+        res.send(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'));
+    })
+}
+
 // errors route 
 app.use(notFound)
 app.use(ErrorHandler)
@@ -51,7 +68,7 @@ app.use(ErrorHandler)
 
 
 //  connect mongodb localy 
-mongoose.connect(process.env.MONGODB_URL)
+mongoose.connect(process.env.NODE_ENV == "development" ? process.env.MONGODB_URL_DEV : process.env.MONGODB_URL_PRO)
     .then(()=>console.log('✅ connected mongodb'))
     .catch((err)=>console.log(`❌ disconnected ${err}`)) 
 

@@ -1,17 +1,17 @@
-import { ArrowRightLeft,ChartColumn, LayoutDashboard, LogOut,Menu, Moon, Sun, UserStar, } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ArrowRightLeft, ChartColumn, LayoutDashboard, LogOut, Menu, Moon, Sun, UserStar, } from "lucide-react";
 
-import { Link, Outlet, useNavigate } from "react-router";
-import useAuthstore from "../lib/Store/AuthStore";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { Link, Outlet, useNavigate } from "react-router";
+import useAuthstore from "../lib/Store/AuthStore";
 
-import { Sheet,
-   SheetContent,
-   SheetClose,
-   SheetHeader,
-   SheetTitle,
-   SheetTrigger,
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
 } from "@/components/ui/sheet";
 
 import {
@@ -20,8 +20,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import useThemeStore from "../lib/Store/ThemeStore";
 import { useQueryClient } from "@tanstack/react-query";
+import useThemeStore from "../lib/Store/ThemeStore";
 
 
 
@@ -94,10 +94,9 @@ const DashboardPage = () => {
            </div>
            <div className="fixed bottom-0 ">
              <div className="flex p-2">
-               <Avatar className="h-14 w-14 ">
-                 <AvatarImage src="https://img.freepik.com/premium-vector/man-professional-business-casual-young-avatar-icon-illustration_1277826-629.jpg" />
-                 <AvatarFallback >{user.name[0]}</AvatarFallback>
-               </Avatar>
+                <div className="h-12 w-12 flex justify-center  rounded-full bg-gray-400">
+                   <span className="text-4xl "> {user.name[0]}</span>
+                </div>
                <div className="flex flex-col pl-2 inset-0 overflow-hidden ">
                  {isOpen && (
                    <span className="font-medium text-lg">{user.name}</span>
@@ -143,10 +142,9 @@ const DashboardPage = () => {
                    </DropdownMenuContent>
                  </DropdownMenu>
                </div>
-               <Avatar className="h-10 w-10">
-                 <AvatarImage src="https://img.freepik.com/premium-vector/man-professional-business-casual-young-avatar-icon-illustration_1277826-629.jpg" />
-                 <AvatarFallback>{user.name[0]}</AvatarFallback>
-               </Avatar>
+               <div className="h-10 w-10 flex justify-center  rounded-full bg-gray-400">
+                   <span className="text-3xl "> {user.name[0]}</span>
+                </div>
              </div>
            </div>
            {/* main component */}
@@ -203,11 +201,10 @@ const DashboardPage = () => {
                    )}
                  </div>
 
-                 <div className="flex p-2">
-                   <Avatar className="h-10 w-10">
-                     <AvatarImage src="https://img.freepik.com/premium-vector/man-professional-business-casual-young-avatar-icon-illustration_1277826-629.jpg" />
-                     <AvatarFallback >{user.name[0]}</AvatarFallback>
-                   </Avatar>
+                 <div className="flex items-center p-2">
+                   <div className="h-12 w-12 flex justify-center  rounded-full bg-gray-400 mr-1">
+                     <span className="text-4xl "> {user.name[0]}</span>
+                   </div>
                    <div className="flex flex-col overflow-hidden">
                      <span className="font-medium text-lg">{user.name}</span>
                      <span>{user.email}</span>
@@ -245,10 +242,9 @@ const DashboardPage = () => {
                  </DropdownMenuContent>
                </DropdownMenu>
              </div>
-             <Avatar className="h-10 w-10">
-               <AvatarImage src="https://img.freepik.com/premium-vector/man-professional-business-casual-young-avatar-icon-illustration_1277826-629.jpg" />
-               <AvatarFallback>{user.name[0]}</AvatarFallback>
-             </Avatar>
+             <div className="h-10 w-10 flex justify-center  rounded-full bg-gray-400">
+                 <span className="text-3xl "> {user.name[0]}</span>
+               </div>
            </div>
          </div>
 

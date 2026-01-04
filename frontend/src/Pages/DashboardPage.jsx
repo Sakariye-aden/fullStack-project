@@ -145,7 +145,7 @@ const DashboardPage = () => {
                </div>
                <Avatar className="h-10 w-10">
                  <AvatarImage src="https://img.freepik.com/premium-vector/man-professional-business-casual-young-avatar-icon-illustration_1277826-629.jpg" />
-                 <AvatarFallback>{useEffect.name[0]}</AvatarFallback>
+                 <AvatarFallback>{user.name[0]}</AvatarFallback>
                </Avatar>
              </div>
            </div>
